@@ -2,10 +2,13 @@ using Microsoft.EntityFrameworkCore;
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
 using TaskManagementApp.Infrastructure.Data;
 using TaskManagementApp.Core.Interfaces;
 using TaskManagementApp.Infrastructure.Repositories;
 using System.Globalization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TaskManagementApp
 {
@@ -25,6 +28,10 @@ namespace TaskManagementApp
             // Configure DbContext with SQL Server
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddControllersWithViews();
 
             // Register Repositories
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -56,6 +63,7 @@ namespace TaskManagementApp
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
 
             app.UseHttpsRedirection();
 
