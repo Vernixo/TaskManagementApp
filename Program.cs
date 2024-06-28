@@ -34,6 +34,7 @@ namespace TaskManagementApp
             builder.Services.AddControllersWithViews();
 
             // Register Repositories
+            // Register Repositories
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
